@@ -1,12 +1,17 @@
 package features
 
-type CategoricalEncoder struct{}
+import "sort"
+
+type CategoricalEncoder struct {
+	Sort bool
+	Map  func(s string) string
+}
 
 func (e *CategoricalEncoder) Encode(data [][]string, column int) (PartialMatrix, error) {
 	uniqueValues := make(map[string]bool)
 	// Collect a set of unique values for the given column.
 	for _, row := range data {
-		uniqueValues[row[column]] = true
+		uniqueValues[e.Map(row[column])] = true
 	}
 	c := len(uniqueValues)
 	// Create a list of columns.
@@ -16,10 +21,13 @@ func (e *CategoricalEncoder) Encode(data [][]string, column int) (PartialMatrix,
 		columns[i] = k
 		i++
 	}
+	if e.Sort {
+		sort.Strings(columns)
+	}
 	p := PartialMatrix{Matrix: make([]float64, len(data)*c), Columns: columns}
 	// Iterate over the data again and fill in the partial matrix.
 	for i, row := range data {
-		cell := row[column]
+		cell := e.Map(row[column])
 		for j, v := range columns {
 			index := i*c + j
 			if v == cell {
