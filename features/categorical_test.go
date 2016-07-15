@@ -15,7 +15,7 @@ func TestCategoricalEncoder_Encode(t *testing.T) {
 	}
 	expected := PartialMatrix{Matrix: []float64{1, 0, 0, 1}, Columns: []string{"cat", "mouse"}}
 	if !reflect.DeepEqual(expected, actual) {
-		t.Errorf("Unexpected PartialMatrix: %v, expected %v or %v", actual, expected)
+		t.Errorf("Unexpected PartialMatrix: %v, expected %v", actual, expected)
 	}
 }
 
@@ -28,7 +28,7 @@ func TestCategoricalEncoder_EncodeNonUniqueValues(t *testing.T) {
 	}
 	expected := PartialMatrix{Matrix: []float64{1, 0, 1, 0, 1, 0, 0, 1}, Columns: []string{"cat", "dog"}}
 	if !reflect.DeepEqual(expected, actual) {
-		t.Errorf("Unexpected PartialMatrix: %v, expected %v or %v", actual, expected)
+		t.Errorf("Unexpected PartialMatrix: %v, expected %v", actual, expected)
 	}
 }
 
@@ -43,6 +43,6 @@ func TestCategoricalEncoder_EncodeWithMapToUpper(t *testing.T) {
 		Matrix: []float64{1, 0, 0, 0, 0, 1, 0, 1, 0},
 		Columns: []string{"CAT", "DOG", "MOUSE"}}
 	if !reflect.DeepEqual(expected, actual) {
-		t.Errorf("Unexpected PartialMatrix: %v, expected %v or %v", actual, expected)
+		t.Errorf("Unexpected PartialMatrix: %v, expected %v", actual, expected)
 	}
 }
