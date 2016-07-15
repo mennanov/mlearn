@@ -41,19 +41,18 @@ func NewMatrixFromData(data [][]string, encoders ...features.Encoder) (*Matrix, 
 	if m != len(encoders) {
 		return new(Matrix), errors.New("The number of provided encoders does not match the number of columns")
 	}
-	partialMatrices := make([]features.PartialMatrix, n)
+	partialMatrices := make([]features.PartialMatrix, m)
 	// Calculate the total number of columns.
 	r := 0
 	// Build a list of column names.
-	columns := make([]string, r)
+	var columns []string
 	for i, encoder := range encoders {
 		partialMatrix, err := encoder.Encode(data, i)
 		if err != nil {
 			return new(Matrix), err
 		}
 		partialMatrices[i] = partialMatrix
-		c := len(partialMatrix.Columns)
-		r += c
+		r += len(partialMatrix.Columns)
 		columns = append(columns, partialMatrix.Columns...)
 	}
 	// Prepare the data for mat64.Dense.

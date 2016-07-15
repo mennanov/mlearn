@@ -28,11 +28,16 @@ func TestNewMatrixFromData(t *testing.T) {
 	// Underlying matrix values set check.
 	dataExpected := map[float64]int{1: 4, 0: 6, 0.5: 1, 1.5: 1, 2: 1, 125: 1, 3: 1}
 	dataActual := map[float64]int{}
-	for _, v := range m.RawMatrix().Data {
+	rawData := m.RawMatrix().Data
+	for _, v := range rawData {
 		dataActual[v] += 1
 	}
 	if !reflect.DeepEqual(dataActual, dataExpected) {
 		t.Errorf("Unexpected set of values in Matrix: %v, must be %v", dataActual, dataExpected)
+	}
+	// Underlying matrix dimensions check.
+	if len(rawData) != 15 {
+		t.Errorf("Unexpected len of the underlying Dense matrix: %s, expected %s", len(rawData), 15)
 	}
 }
 
