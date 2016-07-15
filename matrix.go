@@ -16,6 +16,10 @@ type Matrix struct {
 	ColumnNames []string
 }
 
+func NewMatrix(r, c int, mat []float64, columns []string) *Matrix {
+	return &Matrix{mat64.NewDense(r, c, mat), columns}
+}
+
 func (m *Matrix) Print(writer io.Writer) {
 	w := new(tabwriter.Writer)
 	w.Init(writer, 0, 8, 1, '\t', 0)
@@ -31,32 +35,32 @@ func (m *Matrix) Print(writer io.Writer) {
 	w.Flush()
 }
 
-func NewMatrix(data [][]string, encoders ...features.Encoder) (*Matrix, error) {
+func NewMatrixFromData(data [][]string, encoders ...features.Encoder) (*Matrix, error) {
 	n := len(data)
 	m := len(data[0])
 	if m != len(encoders) {
 		return new(Matrix), errors.New("The number of provided encoders does not match the number of columns")
 	}
-	partial_matrices := make([]features.PartialMatrix, n)
+	partialMatrices := make([]features.PartialMatrix, n)
 	// Calculate the total number of columns.
 	r := 0
 	// Build a list of column names.
 	columns := make([]string, r)
 	for i, encoder := range encoders {
-		partial_matrix, err := encoder.Encode(data, i)
+		partialMatrix, err := encoder.Encode(data, i)
 		if err != nil {
 			return new(Matrix), err
 		}
-		partial_matrices[i] = partial_matrix
-		c := len(partial_matrix.Columns)
+		partialMatrices[i] = partialMatrix
+		c := len(partialMatrix.Columns)
 		r += c
-		columns = append(columns, partial_matrix.Columns...)
+		columns = append(columns, partialMatrix.Columns...)
 	}
 	// Prepare the data for mat64.Dense.
 	mat := make([]float64, n*r)
 	for i := 0; i < n; i++ {
 		j := 0
-		for _, pm := range partial_matrices {
+		for _, pm := range partialMatrices {
 			cc := len(pm.Columns)
 			for k := 0; k < cc; k++ {
 				mat[i*r+j+k] = pm.Matrix[i*cc+k]
@@ -64,5 +68,5 @@ func NewMatrix(data [][]string, encoders ...features.Encoder) (*Matrix, error) {
 			j += cc
 		}
 	}
-	return &Matrix{mat64.NewDense(n, r, mat), columns}, nil
+	return NewMatrix(n, r, mat, columns), nil
 }

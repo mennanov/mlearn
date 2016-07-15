@@ -3,16 +3,16 @@ package features
 type CategoricalEncoder struct{}
 
 func (e *CategoricalEncoder) Encode(data [][]string, column int) (PartialMatrix, error) {
-	unique_values := make(map[string]bool)
+	uniqueValues := make(map[string]bool)
 	// Collect a set of unique values for the given column.
 	for _, row := range data {
-		unique_values[row[column]] = true
+		uniqueValues[row[column]] = true
 	}
-	c := len(unique_values)
+	c := len(uniqueValues)
 	// Create a list of columns.
 	columns := make([]string, c)
 	i := 0
-	for k := range unique_values {
+	for k := range uniqueValues {
 		columns[i] = k
 		i++
 	}
