@@ -40,7 +40,7 @@ func TestCategoricalEncoder_EncodeWithMapToUpper(t *testing.T) {
 		t.Error(err)
 	}
 	expected := PartialMatrix{
-		Matrix: []float64{1, 0, 0, 0, 0, 1, 0, 1, 0},
+		Matrix:  []float64{1, 0, 0, 0, 0, 1, 0, 1, 0},
 		Columns: []string{"CAT", "DOG", "MOUSE"}}
 	if !reflect.DeepEqual(expected, actual) {
 		t.Errorf("Unexpected PartialMatrix: %v, expected %v", actual, expected)

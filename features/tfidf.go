@@ -4,29 +4,29 @@ import (
 	"sort"
 )
 
-type WordsCounterEncoder struct {
+type TFIDFEncoder struct {
 	Separator func(string) []string
 	Sort      bool
 }
 
-func (e *WordsCounterEncoder) Encode(data [][]string, column int) (PartialMatrix, error) {
-	uniqueWords := make(map[string]bool)
+func (e *TFIDFEncoder) Encode(data [][]string, column int) (PartialMatrix, error) {
+	wordFreq := make(map[string]int)
 	n := len(data)
 	wordCountsByRow := make([]map[string]int, n)
-	// Collect a set of unique words and count words for each row.
+	// Collect a map of word frequencies in all documents and word counts for each row.
 	for i, row := range data {
 		wordCountsByRow[i] = make(map[string]int)
 		for _, word := range e.Separator(row[column]) {
-			uniqueWords[word] = true
+			wordFreq[word] += 1
 			// Increment word counter.
 			wordCountsByRow[i][word] += 1
 		}
 	}
-	c := len(uniqueWords)
+	c := len(wordFreq)
 	// Create a list of columns.
 	columns := make([]string, c)
 	i := 0
-	for k := range uniqueWords {
+	for k := range wordFreq {
 		columns[i] = k
 		i++
 	}
@@ -39,7 +39,8 @@ func (e *WordsCounterEncoder) Encode(data [][]string, column int) (PartialMatrix
 		for j, w := range columns {
 			// Get a count value for each word in a row.
 			if v, ok := wordCounts[w]; ok {
-				p.Matrix[i*c+j] = float64(v)
+				// Compute TF-IDF
+				p.Matrix[i*c+j] = float64(v) * float64(n) / float64(1+wordFreq[w])
 			} else {
 				p.Matrix[i*c+j] = 0
 			}
