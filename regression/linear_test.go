@@ -3,6 +3,7 @@ package regression
 import (
 	"github.com/gonum/matrix/mat64"
 	"math"
+	"reflect"
 	"testing"
 )
 
@@ -53,7 +54,7 @@ func TestClosedForm(t *testing.T) {
 	Y := mat64.NewVector(2, []float64{4, 6})
 	expected := mat64.NewVector(2, []float64{5, -2})
 	actual := ClosedForm(X, Y)
-	if expected != roundVector(actual) {
+	if !reflect.DeepEqual(expected.RawVector().Data, roundVector(actual).RawVector().Data) {
 		t.Errorf("Expected coefficients: %v, got %v", expected, actual)
 	}
 }
