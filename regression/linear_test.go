@@ -58,3 +58,24 @@ func TestClosedForm(t *testing.T) {
 		t.Errorf("Expected coefficients: %v, got %v", expected, actual)
 	}
 }
+
+func TestRSSGradient(t *testing.T) {
+	X := mat64.NewDense(2, 2, []float64{2, 3, 2, 2})
+	Y := mat64.NewVector(2, []float64{4, 6})
+	W := mat64.NewVector(2, []float64{1, 1})
+	expected := mat64.NewVector(2, []float64{-2, -1})
+	actual := RSSGradient(Y, X, W, 0.5)
+	if !reflect.DeepEqual(expected.RawVector().Data, roundVector(actual).RawVector().Data) {
+		t.Errorf("Expected gradient: %v, got %v", expected, actual)
+	}
+}
+
+func TestGradientDescent(t *testing.T) {
+	X := mat64.NewDense(2, 2, []float64{2, 3, 2, 2})
+	Y := mat64.NewVector(2, []float64{4, 6})
+	actual := GradientDescent(X, Y, 4.5e-2, 2e-4, 1000)
+	expected := mat64.NewVector(2, []float64{5, -2})
+	if !reflect.DeepEqual(expected.RawVector().Data, roundVector(actual).RawVector().Data) {
+		t.Errorf("Expected coefficients: %v, got %v", expected, actual)
+	}
+}
