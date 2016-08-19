@@ -1,6 +1,7 @@
 package features
 
 import (
+	"math"
 	"sort"
 )
 
@@ -40,7 +41,7 @@ func (e *TFIDFEncoder) Encode(data [][]string, column int) (PartialMatrix, error
 			// Get a count value for each word in a row.
 			if v, ok := wordCounts[w]; ok {
 				// Compute TF-IDF
-				p.Matrix[i*c+j] = float64(v) * float64(n) / float64(1+wordFreq[w])
+				p.Matrix[i*c+j] = float64(v) * math.Log(float64(n)/float64(1+wordFreq[w]))
 			} else {
 				p.Matrix[i*c+j] = 0
 			}
