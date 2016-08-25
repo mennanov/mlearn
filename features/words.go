@@ -10,7 +10,7 @@ type WordsCounterEncoder struct {
 	Sort      bool
 }
 
-func (e *WordsCounterEncoder) Encode(data [][]string) (PartialMatrix, error) {
+func (e *WordsCounterEncoder) Encode(data [][]string) (*PartialMatrix, error) {
 	uniqueWords := make(map[string]bool)
 	n := len(data)
 	wordCountsByRow := make([]map[string]int, n)
@@ -46,5 +46,5 @@ func (e *WordsCounterEncoder) Encode(data [][]string) (PartialMatrix, error) {
 			}
 		}
 	}
-	return p, nil
+	return &p, nil
 }

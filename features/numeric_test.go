@@ -12,7 +12,7 @@ func TestNumericEncoder_Encode(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	expected := PartialMatrix{Matrix: []float64{1.5, 5e4}, Columns: []string{"x1"}}
+	expected := &PartialMatrix{Matrix: []float64{1.5, 5e4}, Columns: []string{"x1"}}
 	if !reflect.DeepEqual(expected, actual) {
 		t.Errorf("Unexpected PartialMatrix: %v, expected %v", actual, expected)
 	}
@@ -25,7 +25,7 @@ func TestNumericMultiplicationEncoder_Encode(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	expected := PartialMatrix{Matrix: []float64{-1, -12}, Columns: []string{"x1"}}
+	expected := &PartialMatrix{Matrix: []float64{-1, -12}, Columns: []string{"x1"}}
 	if !reflect.DeepEqual(expected, actual) {
 		t.Errorf("Unexpected PartialMatrix: %v, expected %v", actual, expected)
 	}
@@ -38,7 +38,7 @@ func TestNumericSumEncoder_Encode(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	expected := PartialMatrix{Matrix: []float64{0, -1}, Columns: []string{"x1"}}
+	expected := &PartialMatrix{Matrix: []float64{0, -1}, Columns: []string{"x1"}}
 	if !reflect.DeepEqual(expected, actual) {
 		t.Errorf("Unexpected PartialMatrix: %v, expected %v", actual, expected)
 	}

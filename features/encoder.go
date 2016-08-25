@@ -6,5 +6,5 @@ type PartialMatrix struct {
 }
 
 type Encoder interface {
-	Encode(data [][]string) (PartialMatrix, error)
+	Encode(data [][]string) (*PartialMatrix, error)
 }

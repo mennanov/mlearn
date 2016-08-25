@@ -7,17 +7,17 @@ type NumericEncoder struct {
 	ColumnName string
 }
 
-func (e *NumericEncoder) Encode(data [][]string) (PartialMatrix, error) {
+func (e *NumericEncoder) Encode(data [][]string) (*PartialMatrix, error) {
 	c := len(data)
 	p := PartialMatrix{Matrix: make([]float64, c), Columns: []string{e.ColumnName}}
 	for i, row := range data {
 		v, err := strconv.ParseFloat(row[e.Column], 64)
 		if err != nil {
-			return PartialMatrix{}, err
+			return &PartialMatrix{}, err
 		}
 		p.Matrix[i] = v
 	}
-	return p, nil
+	return &p, nil
 }
 
 type NumericMultiplicationEncoder struct {
@@ -25,7 +25,7 @@ type NumericMultiplicationEncoder struct {
 	ColumnName string
 }
 
-func (e *NumericMultiplicationEncoder) Encode(data [][]string) (PartialMatrix, error) {
+func (e *NumericMultiplicationEncoder) Encode(data [][]string) (*PartialMatrix, error) {
 	c := len(data)
 	p := PartialMatrix{Matrix: make([]float64, c), Columns: []string{e.ColumnName}}
 	for i, row := range data {
@@ -33,13 +33,13 @@ func (e *NumericMultiplicationEncoder) Encode(data [][]string) (PartialMatrix, e
 		for _, c := range e.Columns {
 			v, err := strconv.ParseFloat(row[c], 64)
 			if err != nil {
-				return PartialMatrix{}, err
+				return &PartialMatrix{}, err
 			}
 			r *= v
 		}
 		p.Matrix[i] = r
 	}
-	return p, nil
+	return &p, nil
 }
 
 type NumericSumEncoder struct {
@@ -47,7 +47,7 @@ type NumericSumEncoder struct {
 	ColumnName string
 }
 
-func (e *NumericSumEncoder) Encode(data [][]string) (PartialMatrix, error) {
+func (e *NumericSumEncoder) Encode(data [][]string) (*PartialMatrix, error) {
 	c := len(data)
 	p := PartialMatrix{Matrix: make([]float64, c), Columns: []string{e.ColumnName}}
 	for i, row := range data {
@@ -55,11 +55,11 @@ func (e *NumericSumEncoder) Encode(data [][]string) (PartialMatrix, error) {
 		for _, c := range e.Columns {
 			v, err := strconv.ParseFloat(row[c], 64)
 			if err != nil {
-				return PartialMatrix{}, err
+				return &PartialMatrix{}, err
 			}
 			r += v
 		}
 		p.Matrix[i] = r
 	}
-	return p, nil
+	return &p, nil
 }

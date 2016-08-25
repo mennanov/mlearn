@@ -10,7 +10,7 @@ type CategoricalEncoder struct {
 	Map    func(s string) string
 }
 
-func (e *CategoricalEncoder) Encode(data [][]string) (PartialMatrix, error) {
+func (e *CategoricalEncoder) Encode(data [][]string) (*PartialMatrix, error) {
 	uniqueValues := make(map[string]bool)
 	// Collect a set of unique values for the given column.
 	for _, row := range data {
@@ -40,5 +40,5 @@ func (e *CategoricalEncoder) Encode(data [][]string) (PartialMatrix, error) {
 			}
 		}
 	}
-	return p, nil
+	return &p, nil
 }

@@ -16,7 +16,7 @@ func TestWordsCounterEncoder_Encode(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	expected := PartialMatrix{
+	expected := &PartialMatrix{
 		Matrix:  []float64{2, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1},
 		Columns: []string{"a", "and", "cat", "dog", "has", "marry", "susan"}}
 	if !reflect.DeepEqual(expected, actual) {

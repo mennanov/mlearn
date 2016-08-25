@@ -11,7 +11,7 @@ type TFIDFEncoder struct {
 	Sort      bool
 }
 
-func (e *TFIDFEncoder) Encode(data [][]string) (PartialMatrix, error) {
+func (e *TFIDFEncoder) Encode(data [][]string) (*PartialMatrix, error) {
 	wordFreq := make(map[string]int)
 	n := len(data)
 	wordCountsByRow := make([]map[string]int, n)
@@ -48,5 +48,5 @@ func (e *TFIDFEncoder) Encode(data [][]string) (PartialMatrix, error) {
 			}
 		}
 	}
-	return p, nil
+	return &p, nil
 }

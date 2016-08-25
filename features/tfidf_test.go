@@ -16,7 +16,7 @@ func TestTFIDFEncoder_Encode(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	expected := PartialMatrix{
+	expected := &PartialMatrix{
 		Matrix:  []float64{math.Log(2. / 3), 0, 0, math.Log(2. / 3), math.Log(2. / 3), 0, 0, math.Log(2. / 3)},
 		Columns: []string{"at", "house", "office", "the"}}
 

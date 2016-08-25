@@ -29,7 +29,7 @@ func PrintMatrixTabular(m *mat64.Dense, columns []string, writer io.Writer) {
 func NewMatrixFromData(data [][]string, encoders ...features.Encoder) (*mat64.Dense, []string, error) {
 	n := len(data)
 	m := len(encoders)
-	partialMatrices := make([]features.PartialMatrix, m)
+	partialMatrices := make([]*features.PartialMatrix, m)
 	// Calculate the total number of columns.
 	r := 1
 	// Build a list of column names. Intercept is included by default.
