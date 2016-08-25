@@ -29,7 +29,7 @@ func (e *NumericMultiplicationEncoder) Encode(data [][]string) (PartialMatrix, e
 	c := len(data)
 	p := PartialMatrix{Matrix: make([]float64, c), Columns: []string{e.ColumnName}}
 	for i, row := range data {
-		r := float64(0)
+		r := float64(1)
 		for _, c := range e.Columns {
 			v, err := strconv.ParseFloat(row[c], 64)
 			if err != nil {

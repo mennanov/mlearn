@@ -46,7 +46,7 @@ func loadCSVFile(file string, targetColumn int, featureColumns []int) ([][]strin
 }
 
 func ExampleGradientDescent() {
-	columnIdx := []int{3, 4, 5, 6, 7, 14, 15, 17, 18, 16}
+	columnIdx := []int{3, 4, 5, 6, 7, 14, 15, 17, 18}
 	targetColumnIdx := 2
 	encoders := []features.Encoder{
 		&features.NumericMultiplicationEncoder{Columns: []int{0, 0}, ColumnName: "bedrooms_square"},
@@ -92,7 +92,7 @@ func ExampleGradientDescent() {
 	fmt.Println("Test RSS:", rssTest, "Test RMSE:", rmseTest)
 	// Output:
 	// [intercept bedrooms_square bedrooms_bathrooms bathrooms sqft_living floors_square yr_built yr_renovated lat_lng]
-	// Gradient Descend converged after iterations:  364
-	// Train RSS: 1.1830968451864368e+15 Train RMSE: 260876.69959623617
-	// Test RSS: 2.703172938108974e+14 Test RMSE: 252823.86889048142
+	// Gradient Descend converged after iterations:  366
+	// Train RSS: 1.183078156129154e+15 Train RMSE: 260874.63908916235
+	// Test RSS: 2.7031485613954122e+14 Test RMSE: 252822.72892846845
 }

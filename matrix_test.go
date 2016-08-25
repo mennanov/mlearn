@@ -11,11 +11,11 @@ import (
 func TestNewMatrixFromData(t *testing.T) {
 	data := [][]string{{"cat", "0.5", "1"}, {"dog", "1.5", "2"}, {"horse", "125", "3"}}
 	m, columns, err := NewMatrixFromData(data,
-		&features.CategoricalEncoder{Sort: true, Map: func(s string) string {
+		&features.CategoricalEncoder{Column: 0, Sort: true, Map: func(s string) string {
 			return s
 		}},
-		&features.NumericEncoder{ColumnName: "weight"},
-		&features.NumericEncoder{ColumnName: "age"})
+		&features.NumericEncoder{Column: 1, ColumnName: "weight"},
+		&features.NumericEncoder{Column: 2, ColumnName: "age"})
 	if err != nil {
 		t.Error(err)
 	}
@@ -25,7 +25,7 @@ func TestNewMatrixFromData(t *testing.T) {
 		t.Errorf("Unexpected set of columns in Matrix.ColumnNames: %v, must be %v", columns, columnsExpected)
 	}
 	// Underlying matrix values set check.
-	dataExpected := []float64{1, 1, 0, 0, 0.5, 1, 1, 0, 1, 0, 1.5, 2, 1, 0, 0, 1, 125, 3}
+	dataExpected := []float64{0, 1, 0, 0, 0.5, 1, 0, 0, 1, 0, 1.5, 2, 0, 0, 0, 1, 125, 3}
 	rawData := m.RawMatrix().Data
 	if !reflect.DeepEqual(rawData, dataExpected) {
 		t.Errorf("Unexpected set of values in Matrix: %v, must be %v", rawData, dataExpected)
