@@ -57,10 +57,11 @@ func ClosedForm(X *mat64.Dense, Y *mat64.Vector) *mat64.Vector {
 // GradientDescent algorithm for the linear regression computes the parameters of the function by taking a gradient
 // (partial derivatives) of the RSS and going down the slope iteratively.
 // Iteration stops when the maxIterations is exceeded or when the change in the gradient is less than epsilon.
-func GradientDescent(X *mat64.Dense, Y *mat64.Vector, step, tolerance float64, maxIterations int) *mat64.Vector {
+func GradientDescent(X *mat64.Dense, Y *mat64.Vector, step, tolerance float64, maxIterations int) (*mat64.Vector, int) {
 	_, c := X.Dims()
 	W := mat64.NewVector(c, nil)
-	for t := 0; t <= maxIterations; t++ {
+	t := 0
+	for ; t <= maxIterations; t++ {
 		gradient := RSSGradient(Y, X, W, step)
 		// Update the coefficients by subtracting the gradient.
 		W.SubVec(W, gradient)
@@ -69,7 +70,7 @@ func GradientDescent(X *mat64.Dense, Y *mat64.Vector, step, tolerance float64, m
 			break
 		}
 	}
-	return W
+	return W, t
 }
 
 // magnitude computes the magnitude of the vector v as an SQRT(v' * v).
@@ -82,8 +83,8 @@ func magnitude(v *mat64.Vector) float64 {
 // RSSGradient computes a gradient of the RSS function.
 // Gradient is just a vector of partial derivatives with respect to j-th feature W.
 func RSSGradient(Y *mat64.Vector, X *mat64.Dense, W *mat64.Vector, step float64) *mat64.Vector {
-	r, c := X.Dims()
-	gradient := mat64.NewVector(r, nil)
+	_, c := X.Dims()
+	gradient := mat64.NewVector(c, nil)
 	prediction := Predict(X, W)
 	loss := predictionLoss(Y, prediction)
 	// Compute partial derivatives with respect to j-th feature.

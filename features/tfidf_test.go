@@ -8,11 +8,11 @@ import (
 )
 
 func TestTFIDFEncoder_Encode(t *testing.T) {
-	encoder := TFIDFEncoder{Separator: func(s string) []string {
+	encoder := TFIDFEncoder{Column: 0, Separator: func(s string) []string {
 		return strings.Split(s, " ")
 	}, Sort: true}
 	testData := [][]string{{"at the office", "1"}, {"at the house", "2"}}
-	actual, err := encoder.Encode(testData, 0)
+	actual, err := encoder.Encode(testData)
 	if err != nil {
 		t.Error(err)
 	}

@@ -5,18 +5,19 @@ import (
 )
 
 type WordsCounterEncoder struct {
+	Column    int
 	Separator func(string) []string
 	Sort      bool
 }
 
-func (e *WordsCounterEncoder) Encode(data [][]string, column int) (PartialMatrix, error) {
+func (e *WordsCounterEncoder) Encode(data [][]string) (PartialMatrix, error) {
 	uniqueWords := make(map[string]bool)
 	n := len(data)
 	wordCountsByRow := make([]map[string]int, n)
 	// Collect a set of unique words and count words for each row.
 	for i, row := range data {
 		wordCountsByRow[i] = make(map[string]int)
-		for _, word := range e.Separator(row[column]) {
+		for _, word := range e.Separator(row[e.Column]) {
 			uniqueWords[word] = true
 			// Increment word counter.
 			wordCountsByRow[i][word] += 1

@@ -6,18 +6,19 @@ import (
 )
 
 type TFIDFEncoder struct {
+	Column    int
 	Separator func(string) []string
 	Sort      bool
 }
 
-func (e *TFIDFEncoder) Encode(data [][]string, column int) (PartialMatrix, error) {
+func (e *TFIDFEncoder) Encode(data [][]string) (PartialMatrix, error) {
 	wordFreq := make(map[string]int)
 	n := len(data)
 	wordCountsByRow := make([]map[string]int, n)
 	// Collect a map of word frequencies in all documents and word counts for each row.
 	for i, row := range data {
 		wordCountsByRow[i] = make(map[string]int)
-		for _, word := range e.Separator(row[column]) {
+		for _, word := range e.Separator(row[e.Column]) {
 			wordFreq[word] += 1
 			// Increment word counter.
 			wordCountsByRow[i][word] += 1

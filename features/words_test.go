@@ -7,9 +7,12 @@ import (
 )
 
 func TestWordsCounterEncoder_Encode(t *testing.T) {
-	encoder := WordsCounterEncoder{Separator: func(s string) []string { return strings.Split(s, " ") }, Sort: true}
+	encoder := WordsCounterEncoder{Column: 0,
+		Separator: func(s string) []string {
+			return strings.Split(s, " ")
+		}, Sort: true}
 	testData := [][]string{{"marry has a dog and a cat", "1"}, {"susan has a dog", "2"}}
-	actual, err := encoder.Encode(testData, 0)
+	actual, err := encoder.Encode(testData)
 	if err != nil {
 		t.Error(err)
 	}

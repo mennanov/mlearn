@@ -7,9 +7,9 @@ import (
 )
 
 func TestCategoricalEncoder_Encode(t *testing.T) {
-	encoder := CategoricalEncoder{Sort: true, Map: func(s string) string { return s }}
+	encoder := CategoricalEncoder{Column: 0, Sort: true, Map: func(s string) string { return s }}
 	testData := [][]string{{"cat", "1"}, {"mouse", "2"}}
-	actual, err := encoder.Encode(testData, 0)
+	actual, err := encoder.Encode(testData)
 	if err != nil {
 		t.Error(err)
 	}
@@ -20,9 +20,9 @@ func TestCategoricalEncoder_Encode(t *testing.T) {
 }
 
 func TestCategoricalEncoder_EncodeNonUniqueValues(t *testing.T) {
-	encoder := CategoricalEncoder{Sort: true, Map: func(s string) string { return s }}
+	encoder := CategoricalEncoder{Column: 0, Sort: true, Map: func(s string) string { return s }}
 	testData := [][]string{{"cat", "1"}, {"cat", "2"}, {"cat", "3"}, {"dog", "5"}}
-	actual, err := encoder.Encode(testData, 0)
+	actual, err := encoder.Encode(testData)
 	if err != nil {
 		t.Error(err)
 	}
@@ -33,9 +33,9 @@ func TestCategoricalEncoder_EncodeNonUniqueValues(t *testing.T) {
 }
 
 func TestCategoricalEncoder_EncodeWithMapToUpper(t *testing.T) {
-	encoder := CategoricalEncoder{Sort: true, Map: func(s string) string { return strings.ToUpper(s) }}
+	encoder := CategoricalEncoder{Column: 0, Sort: true, Map: func(s string) string { return strings.ToUpper(s) }}
 	testData := [][]string{{"cat", "1"}, {"mouse", "2"}, {"dog", "3"}}
-	actual, err := encoder.Encode(testData, 0)
+	actual, err := encoder.Encode(testData)
 	if err != nil {
 		t.Error(err)
 	}
